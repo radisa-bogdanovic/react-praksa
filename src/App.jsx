@@ -13,6 +13,8 @@ import Pocetna from "./components/pages/Pocetna";
 import Kategorije from "./components/pages/Kategorije";
 import Oblasti from "./components/pages/Oblasti";
 import JednaKategorija from "./components/pages/JednaKategorija";
+import JednaOblast from "./components/pages/JednaOblast";
+import JednoJelo from "./components/pages/JednoJelo";
 
 function App() {
   return (
@@ -21,9 +23,14 @@ function App() {
       <>
         <Routes>
           <Route path="" element={<Pocetna />} />
-          <Route path="/oblast/" element={<Oblasti />} />
+
+          <Route path="/oblasti/" element={<Oblasti />} />
+          <Route path="/oblasti/:oblast" element={<JednaOblast />} />
+
           <Route path="/kategorije/" element={<Kategorije />} />
           <Route path="/kategorije/:kategorija" element={<JednaKategorija />} />
+
+          <Route path="/meal/:id" element={<JednoJelo />} />
         </Routes>
       </>
     </ThemeProvider>

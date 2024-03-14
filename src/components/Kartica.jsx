@@ -5,11 +5,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
 
-export default function MediaCard({ title, imgUrl, description }) {
-  const navigate = useNavigate();
-
+export default function MediaCard({ title, imgUrl, description, onNavigate }) {
   return (
     <Card sx={{ maxWidth: "400px", width: "100%" }}>
       <CardMedia sx={{ height: 140 }} image={imgUrl} title="green iguana" />
@@ -22,12 +19,7 @@ export default function MediaCard({ title, imgUrl, description }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button
-          size="small"
-          onClick={() => {
-            navigate(`/kategorije/${title}`);
-          }}
-        >
+        <Button size="small" onClick={onNavigate}>
           Vidi detalje
         </Button>
       </CardActions>

@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "../utilities/axios";
 import { Box, Typography } from "@mui/material";
 import Kartica from "../Kartica";
+import { useNavigate } from "react-router-dom";
 
 export default function Kategorije() {
+  const navigate = useNavigate();
   const [category, setCategory] = useState([]);
 
   useEffect(() => {
@@ -21,6 +23,10 @@ export default function Kategorije() {
       console.log(error);
     }
   };
+
+  // const onNavigate = (kategorija) => {
+  //   navigate(`/kategorije/${kategorija}`);
+  // };
 
   return (
     <Box
@@ -47,6 +53,9 @@ export default function Kategorije() {
               description={data.strCategoryDescription}
               imgUrl={data.strCategoryThumb}
               title={data.strCategory}
+              onNavigate={() => {
+                navigate(`/kategorije/${data.strCategory}`);
+              }}
             />
           );
         })}

@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "../utilities/axios";
 import { Box, Typography } from "@mui/material";
 import Kartica from "../Kartica";
+import { useNavigate } from "react-router-dom";
 
 export default function Oblasti() {
   const [areas, setAreas] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     pokupiKorisnike();
@@ -48,6 +50,9 @@ export default function Oblasti() {
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMcvumPgt3duUj93twRyg2soEMPdU72K-0Lg&usqp=CAU"
               }
               title={data.strArea}
+              onNavigate={() => {
+                navigate(`/oblasti/${data.strArea}`);
+              }}
             />
           );
         })}

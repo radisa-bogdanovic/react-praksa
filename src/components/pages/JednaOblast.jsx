@@ -4,25 +4,27 @@ import { Box, Typography } from "@mui/material";
 import Kartica from "../Kartica";
 import { useParams, useNavigate } from "react-router-dom";
 
-export default function JednaKategorija() {
+export default function JednaOblast() {
   const params = useParams();
   const navigate = useNavigate();
-  const [meals, setMeals] = useState([]);
+
+  const [areas, setAreas] = useState([]);
   const [title, setTitle] = useState("");
 
   useEffect(() => {
-    if (params.kategorija) {
-      setTitle(params.kategorija);
-      pokupiDetalje(params.kategorija);
+    console.log(params);
+    if (params.oblast) {
+      setTitle(params.oblast);
+      pokupiDetalje(params.oblast);
     }
   }, []);
 
-  const pokupiDetalje = async (kategorija) => {
+  const pokupiDetalje = async (oblast) => {
     try {
-      const response = await axios.get(`1/search.php?s=${kategorija}`);
+      const response = await axios.get(`1/filter.php?a=${oblast}`);
       const { data } = response;
 
-      setMeals(data.meals);
+      setAreas(data.meals);
     } catch (error) {
       console.log(error);
     }
@@ -46,11 +48,11 @@ export default function JednaKategorija() {
         {title}
       </Typography>
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-        {meals.map((data, id) => {
+        {areas.map((data, id) => {
           return (
             <Kartica
-              key={data.idMeal + id}
-              description={"No description"}
+              key={data.idMeal}
+              description={data.strInstructions}
               imgUrl={data.strMealThumb}
               title={data.strMeal}
               onNavigate={() => {

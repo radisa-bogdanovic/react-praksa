@@ -9,7 +9,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { Link } from "@mui/material";
-
+import MenuIcon from "@mui/icons-material/Menu";
 const pages = ["pocetna", "kategorije", "oblasti"];
 
 function ResponsiveAppBar() {
@@ -32,7 +32,9 @@ function ResponsiveAppBar() {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container
+        sx={{ maxWidth: "1200px", marginX: "auto", paddingX: { xs: 2, lg: 0 } }}
+      >
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -59,8 +61,10 @@ function ResponsiveAppBar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
-            ></IconButton>
+            >
+              {" "}
+              <MenuIcon sx={{ color: "#fff" }} />
+            </IconButton>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}

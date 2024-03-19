@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 export default function JednoJelo() {
   const params = useParams();
   const [meal, setMeal] = useState(null);
+  const [zacini, setZacini] = useState({});
 
   useEffect(() => {
     console.log(params);
@@ -17,10 +18,22 @@ export default function JednoJelo() {
 
   const pokupiDetalje = async (id) => {
     try {
+      let ingredients = [];
+      let amount = [];
       const response = await axios.get(`1/lookup.php?i=${id}`);
       const { data } = response;
 
+      for (let i = 1; i < 20; i++) {
+        const zacin = data.meals[0][`strIngredient${i}`];
+        const kolicina = data.meals[0][`strMeasure${i}`];
+        if (zacin.length > 0) {
+          ingredients.push(zacin);
+          amount.push(kolicina);
+        }
+      }
+      setZacini({ ingredients: ingredients, amount: amount });
       setMeal(data.meals[0]);
+      console.log(ingredients);
     } catch (error) {
       console.log(error);
     }
@@ -30,7 +43,7 @@ export default function JednoJelo() {
     <Box
       component={"main"}
       sx={{
-        maxWidth: "1536px",
+        maxWidth: "1200px",
         marginX: "auto",
         padding: 2,
       }}
@@ -43,18 +56,19 @@ export default function JednoJelo() {
         {" "}
         {meal ? meal.strMeal : ""}
       </Typography>
-      {/* <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-        {areas.map((data, id) => {
-          return (
-            <Kartica
-              key={data.idMeal}
-              description={data.strInstructions}
-              imgUrl={data.strMealThumb}
-              title={data.strMeal}
-            />
-          );
-        })}
-      </Box> */}
+      {meal && (
+        <Kartica
+          key={meal.idMeal}
+          description={meal.strInstructions}
+          imgUrl={meal.strMealThumb}
+          title={meal.strMeal}
+          isCustomCard={true}
+          zacini={zacini}
+          onNavigate={() => {
+            navigate("/meal/" + meal.idMeal);
+          }}
+        />
+      )}
     </Box>
   );
 }

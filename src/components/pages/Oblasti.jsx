@@ -19,7 +19,7 @@ export default function Oblasti() {
       console.log(data.meals);
       setAreas(data.meals);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -27,7 +27,7 @@ export default function Oblasti() {
     <Box
       component={"main"}
       sx={{
-        maxWidth: "1536px",
+        maxWidth: "1200px",
         marginX: "auto",
         padding: 2,
       }}
@@ -40,20 +40,37 @@ export default function Oblasti() {
         {" "}
         Oblasti
       </Typography>
-      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          rowGap: 5,
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+        }}
+      >
         {areas.map((data, id) => {
           return (
-            <Kartica
-              key={data.strArea + id}
-              description={"No description"}
-              imgUrl={
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMcvumPgt3duUj93twRyg2soEMPdU72K-0Lg&usqp=CAU"
-              }
-              title={data.strArea}
-              onNavigate={() => {
-                navigate(`/oblasti/${data.strArea}`);
-              }}
-            />
+            <>
+              <Kartica
+                key={data.strArea + id}
+                description={"No description"}
+                imgUrl={
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMcvumPgt3duUj93twRyg2soEMPdU72K-0Lg&usqp=CAU"
+                }
+                title={data.strArea}
+                onNavigate={() => {
+                  navigate(`/oblasti/${data.strArea}`);
+                }}
+              />
+              {/* <img
+                src={"hehe"}
+                onError={(e) => {
+                  e.currentTarget.src = "/ddsadasd/dsadas";
+                  e.currentTarget.onerror = null;
+                }}
+              /> */}
+            </>
           );
         })}
       </Box>

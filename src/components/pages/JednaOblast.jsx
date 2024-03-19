@@ -34,7 +34,7 @@ export default function JednaOblast() {
     <Box
       component={"main"}
       sx={{
-        maxWidth: "1536px",
+        maxWidth: "1200px",
         marginX: "auto",
         padding: 2,
       }}
@@ -47,7 +47,16 @@ export default function JednaOblast() {
         {" "}
         {title}
       </Typography>
-      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          flexWrap: "wrap",
+          rowGap: 5,
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+        }}
+      >
         {areas.map((data, id) => {
           return (
             <Kartica

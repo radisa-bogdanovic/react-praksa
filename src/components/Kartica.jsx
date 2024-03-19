@@ -5,11 +5,23 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
-export default function MediaCard({ title, imgUrl, description, onNavigate }) {
+export default function MediaCard({
+  title,
+  imgUrl,
+  description,
+  onNavigate,
+  isCustomCard,
+  zacini,
+}) {
   return (
-    <Card sx={{ maxWidth: "400px", width: "100%" }}>
-      <CardMedia sx={{ height: 140 }} image={imgUrl} title="green iguana" />
+    <Card sx={{ maxWidth: isCustomCard ? "600px" : "350px", width: "100%" }}>
+      <CardMedia
+        sx={{ height: isCustomCard ? 300 : 140 }}
+        image={imgUrl}
+        title="green iguana"
+      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title}
@@ -18,11 +30,26 @@ export default function MediaCard({ title, imgUrl, description, onNavigate }) {
           {description}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small" onClick={onNavigate}>
-          Vidi detalje
-        </Button>
-      </CardActions>
+      {isCustomCard && (
+        <Box>
+          <ul>
+            {zacini.ingredients.map((ingredients, id) => {
+              return (
+                <li key={ingredients + id}>
+                  {ingredients} - {zacini.amount[id]}
+                </li>
+              );
+            })}
+          </ul>
+        </Box>
+      )}
+      {!isCustomCard && (
+        <CardActions>
+          <Button size="small" onClick={onNavigate}>
+            Vidi detalje
+          </Button>
+        </CardActions>
+      )}
     </Card>
   );
 }

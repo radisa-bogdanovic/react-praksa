@@ -1,3 +1,27 @@
+import { Box, Typography } from "@mui/material";
+
 export default function Pocetna() {
-  return <h1>Hej, ja sam na pocetnoj</h1>;
+  return (
+    <Box
+      component={"main"}
+      sx={{
+        maxWidth: "1200px",
+        marginX: "auto",
+        padding: 2,
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Typography
+        component={"h1"}
+        variant="h1"
+        sx={{ textAlign: "center", marginY: 4 }}
+      >
+        {" "}
+        Pocetna stranica
+      </Typography>
+    </Box>
+  );
 }

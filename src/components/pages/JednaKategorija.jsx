@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "../utilities/axios";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, CircularProgress, TextField } from "@mui/material";
 import Kartica from "../Kartica";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -8,7 +8,10 @@ export default function JednaKategorija() {
   const params = useParams();
   const navigate = useNavigate();
   const [meals, setMeals] = useState([]);
+  // const [searchedMeals, setSearchedMeals] = useState([]);
   const [title, setTitle] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [isEmptySearch, setIsEmptySearch] = useState(false);
 
   useEffect(() => {
     if (params.kategorija) {
@@ -23,11 +26,25 @@ export default function JednaKategorija() {
       const { data } = response;
 
       setMeals(data.meals);
+      // setSearchedMeals(data.meals);
     } catch (error) {
       console.log(error);
     }
   };
-
+  const onValueChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+    const searchedMeals = meals.filter((meal) => {
+      return meal.strMeal.toLowerCase().includes(value.toLowerCase());
+      // ||
+      // meal.strDescription.toLowerCase().includes(value.toLowerCase())
+    });
+    if (searchedMeals.length > 0) {
+      setIsEmptySearch(false);
+    } else {
+      setIsEmptySearch(true);
+    }
+  };
   return (
     <Box
       component={"main"}
@@ -35,6 +52,10 @@ export default function JednaKategorija() {
         maxWidth: "1200px",
         marginX: "auto",
         padding: 2,
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
       <Typography
@@ -45,6 +66,15 @@ export default function JednaKategorija() {
         {" "}
         {title}
       </Typography>
+
+      <TextField
+        id="search-field"
+        label="Pretrazi"
+        variant="outlined"
+        value={inputValue}
+        onChange={onValueChange}
+        sx={{ marginY: 4 }}
+      />
       <Box
         sx={{
           display: "flex",
@@ -55,19 +85,36 @@ export default function JednaKategorija() {
           justifyContent: "space-between",
         }}
       >
-        {meals.map((data, id) => {
-          return (
-            <Kartica
-              key={data.idMeal + id}
-              description={"No description"}
-              imgUrl={data.strMealThumb}
-              title={data.strMeal}
-              onNavigate={() => {
-                navigate("/meal/" + data.idMeal);
-              }}
-            />
-          );
-        })}
+        {meals.length > 0 ? (
+          meals
+            .filter((meal) => {
+              return meal.strMeal
+                .toLowerCase()
+                .includes(inputValue.toLowerCase());
+            })
+            .map((data, id) => {
+              return (
+                <Kartica
+                  key={data.idMeal + id}
+                  description={"No description"}
+                  imgUrl={data.strMealThumb}
+                  title={data.strMeal}
+                  onNavigate={() => {
+                    navigate("/meal/" + data.idMeal);
+                  }}
+                />
+              );
+            })
+        ) : (
+          <Box sx={{ display: "flex" }}>
+            <CircularProgress size={150} sx={{ marginTop: 5 }} />
+          </Box>
+        )}
+        {isEmptySearch && (
+          <>
+            No data for <strong>{inputValue}</strong>
+          </>
+        )}
       </Box>
     </Box>
   );

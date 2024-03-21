@@ -16,9 +16,9 @@ export default function MediaCard({
   zacini,
 }) {
   return (
-    <Card sx={{ maxWidth: isCustomCard ? "600px" : "350px", width: "100%" }}>
+    <Card sx={{ maxWidth: isCustomCard ? "800px" : "350px", width: "100%" }}>
       <CardMedia
-        sx={{ height: isCustomCard ? 300 : 140 }}
+        sx={{ height: isCustomCard ? 400 : 140 }}
         image={imgUrl}
         title="green iguana"
       />

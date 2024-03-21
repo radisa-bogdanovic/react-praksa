@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "../utilities/axios";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, CircularProgress } from "@mui/material";
 import Kartica from "../Kartica";
 import { useNavigate } from "react-router-dom";
 
@@ -35,6 +35,10 @@ export default function Kategorije() {
         maxWidth: "1200px",
         marginX: "auto",
         padding: 2,
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
       <Typography
@@ -55,19 +59,25 @@ export default function Kategorije() {
           justifyContent: "space-between",
         }}
       >
-        {category.map((data, id) => {
-          return (
-            <Kartica
-              key={data.strCategory + id}
-              description={data.strCategoryDescription}
-              imgUrl={data.strCategoryThumb}
-              title={data.strCategory}
-              onNavigate={() => {
-                navigate(`/kategorije/${data.strCategory}`);
-              }}
-            />
-          );
-        })}
+        {category.length > 0 ? (
+          category.map((data, id) => {
+            return (
+              <Kartica
+                key={data.strCategory + id}
+                description={data.strCategoryDescription}
+                imgUrl={data.strCategoryThumb}
+                title={data.strCategory}
+                onNavigate={() => {
+                  navigate(`/kategorije/${data.strCategory}`);
+                }}
+              />
+            );
+          })
+        ) : (
+          <Box sx={{ display: "flex" }}>
+            <CircularProgress size={150} sx={{ marginTop: 5 }} />
+          </Box>
+        )}
       </Box>
     </Box>
   );

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "../utilities/axios";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, CircularProgress } from "@mui/material";
 import Kartica from "../Kartica";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -37,6 +37,10 @@ export default function JednaOblast() {
         maxWidth: "1200px",
         marginX: "auto",
         padding: 2,
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
       <Typography
@@ -57,19 +61,25 @@ export default function JednaOblast() {
           justifyContent: "space-between",
         }}
       >
-        {areas.map((data, id) => {
-          return (
-            <Kartica
-              key={data.idMeal}
-              description={data.strInstructions}
-              imgUrl={data.strMealThumb}
-              title={data.strMeal}
-              onNavigate={() => {
-                navigate("/meal/" + data.idMeal);
-              }}
-            />
-          );
-        })}
+        {areas.length > 0 ? (
+          areas.map((data, id) => {
+            return (
+              <Kartica
+                key={data.idMeal}
+                description={data.strInstructions}
+                imgUrl={data.strMealThumb}
+                title={data.strMeal}
+                onNavigate={() => {
+                  navigate("/meal/" + data.idMeal);
+                }}
+              />
+            );
+          })
+        ) : (
+          <Box sx={{ display: "flex" }}>
+            <CircularProgress size={150} sx={{ marginTop: 5 }} />
+          </Box>
+        )}
       </Box>
     </Box>
   );

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "../utilities/axios";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, CircularProgress } from "@mui/material";
 import Kartica from "../Kartica";
 import { useParams } from "react-router-dom";
 
@@ -10,7 +10,6 @@ export default function JednoJelo() {
   const [zacini, setZacini] = useState({});
 
   useEffect(() => {
-    console.log(params);
     if (params.id) {
       pokupiDetalje(params.id);
     }
@@ -33,42 +32,51 @@ export default function JednoJelo() {
       }
       setZacini({ ingredients: ingredients, amount: amount });
       setMeal(data.meals[0]);
-      console.log(ingredients);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <Box
-      component={"main"}
-      sx={{
-        maxWidth: "1200px",
-        marginX: "auto",
-        padding: 2,
-      }}
-    >
-      <Typography
-        component={"h1"}
-        variant="h1"
-        sx={{ textAlign: "center", marginY: 4 }}
+    <>
+      <Box
+        component={"main"}
+        sx={{
+          maxWidth: "1200px",
+          marginX: "auto",
+          padding: 2,
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
-        {" "}
-        {meal ? meal.strMeal : ""}
-      </Typography>
-      {meal && (
-        <Kartica
-          key={meal.idMeal}
-          description={meal.strInstructions}
-          imgUrl={meal.strMealThumb}
-          title={meal.strMeal}
-          isCustomCard={true}
-          zacini={zacini}
-          onNavigate={() => {
-            navigate("/meal/" + meal.idMeal);
-          }}
-        />
-      )}
-    </Box>
+        <Typography
+          component={"h1"}
+          variant="h1"
+          sx={{ textAlign: "center", marginY: 4 }}
+        >
+          {" "}
+          {meal ? meal.strMeal : ""}
+        </Typography>
+        {meal ? (
+          <Kartica
+            key={meal.idMeal}
+            description={meal.strInstructions}
+            imgUrl={meal.strMealThumb}
+            title={meal.strMeal}
+            isCustomCard={true}
+            zacini={zacini}
+            onNavigate={() => {
+              navigate("/meal/" + meal.idMeal);
+            }}
+          />
+        ) : (
+          <Box sx={{ display: "flex" }}>
+            <CircularProgress size={150} sx={{ marginTop: 5 }} />
+          </Box>
+        )}
+      </Box>
+    </>
   );
 }
